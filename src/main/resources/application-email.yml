@@ -1,0 +1,5 @@
+notification:
+  channel: email
+
+provider:
+  name: Email Notification Service

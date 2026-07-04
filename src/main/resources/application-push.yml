@@ -1,0 +1,5 @@
+notification:
+  channel: push
+
+provider:
+  name: Push Notification Service

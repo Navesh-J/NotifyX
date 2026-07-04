@@ -1,0 +1,5 @@
+notification:
+  channel: sms
+
+provider:
+  name: SMS Notification Service
