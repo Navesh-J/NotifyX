@@ -2,10 +2,9 @@ package com.navesh.notifyx.impl;
 
 import com.navesh.notifyx.config.ProviderProperties;
 import com.navesh.notifyx.core.NotificationChannel;
-import com.navesh.notifyx.core.NotificationRequest;
-import com.navesh.notifyx.core.NotificationResponse;
+import com.navesh.notifyx.dto.NotificationRequest;
+import com.navesh.notifyx.dto.NotificationResponse;
 import com.navesh.notifyx.core.NotificationService;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 @Service

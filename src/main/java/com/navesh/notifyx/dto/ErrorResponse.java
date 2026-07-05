@@ -1,4 +1,4 @@
-package com.navesh.notifyx.exception;
+package com.navesh.notifyx.dto;
 
 import java.time.LocalDateTime;
 

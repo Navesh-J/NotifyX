@@ -1,4 +1,4 @@
-package com.navesh.notifyx.core;
+package com.navesh.notifyx.dto;
 
 public record NotificationResponse(
         boolean success,

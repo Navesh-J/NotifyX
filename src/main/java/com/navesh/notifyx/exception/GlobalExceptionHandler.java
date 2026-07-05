@@ -1,5 +1,6 @@
 package com.navesh.notifyx.exception;
 
+import com.navesh.notifyx.dto.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

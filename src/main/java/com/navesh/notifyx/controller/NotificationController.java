@@ -1,7 +1,7 @@
 package com.navesh.notifyx.controller;
 
-import com.navesh.notifyx.core.NotificationRequest;
-import com.navesh.notifyx.core.NotificationResponse;
+import com.navesh.notifyx.dto.NotificationRequest;
+import com.navesh.notifyx.dto.NotificationResponse;
 import com.navesh.notifyx.factory.NotificationServiceFactory;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;

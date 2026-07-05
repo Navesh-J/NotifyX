@@ -1,5 +1,6 @@
-package com.navesh.notifyx.core;
+package com.navesh.notifyx.dto;
 
+import com.navesh.notifyx.core.NotificationChannel;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
