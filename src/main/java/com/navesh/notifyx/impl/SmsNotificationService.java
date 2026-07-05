@@ -12,7 +12,7 @@ import com.navesh.notifyx.dto.NotificationResponse;
 public class SmsNotificationService implements NotificationService {
     
     @Override
-    public NotificationResponse send(NotificationRequest request){
+    public NotificationResponse sendNotification(NotificationRequest request){
 
         System.out.println("Sending SMS to: "+request.recipient());
 

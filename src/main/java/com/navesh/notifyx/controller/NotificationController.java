@@ -2,7 +2,7 @@ package com.navesh.notifyx.controller;
 
 import com.navesh.notifyx.dto.NotificationRequest;
 import com.navesh.notifyx.dto.NotificationResponse;
-import com.navesh.notifyx.factory.NotificationServiceFactory;
+import com.navesh.notifyx.service.NotificationApplicationService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,17 +13,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/notifications")
 public class NotificationController {
 
-    private final NotificationServiceFactory notificationServiceFactory;
+    private final NotificationApplicationService notificationApplicationService;
 
-    public NotificationController(NotificationServiceFactory notificationServiceFactory) {
-        this.notificationServiceFactory = notificationServiceFactory;
+    public NotificationController(NotificationApplicationService notificationApplicationService) {
+        this.notificationApplicationService = notificationApplicationService;
     }
 
-    @PostMapping("/send")
+    @PostMapping("/sendNotification")
     public NotificationResponse sendNotification(
             @Valid @RequestBody NotificationRequest request) {
-        return notificationServiceFactory
-                .getService(request.channel())
-                .send(request);
+        return notificationApplicationService.send(request);
     }
 }

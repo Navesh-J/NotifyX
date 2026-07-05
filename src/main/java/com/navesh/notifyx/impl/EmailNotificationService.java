@@ -23,7 +23,7 @@ public class EmailNotificationService implements NotificationService {
     }
 
     @Override
-    public NotificationResponse send(NotificationRequest request) {
+    public NotificationResponse sendNotification(NotificationRequest request) {
         System.out.println(providerProperties.getName());
         System.out.println("Sending Email to: " + request.recipient());
 
