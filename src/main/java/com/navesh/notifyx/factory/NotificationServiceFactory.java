@@ -24,6 +24,10 @@ public class NotificationServiceFactory {
 
     public NotificationService getService(NotificationChannel channel){
         return Optional.ofNullable(services.get(channel))
-                .orElseThrow(() -> new NotificationServiceNotFoundException("No service found for channel " + channel));
+                .orElseThrow(() ->
+                        new NotificationServiceNotFoundException(
+                                "Unsupported notification channel " + channel
+                        )
+                );
     }
 }
