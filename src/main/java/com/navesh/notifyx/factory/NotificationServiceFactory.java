@@ -2,11 +2,13 @@ package com.navesh.notifyx.factory;
 
 import com.navesh.notifyx.core.NotificationChannel;
 import com.navesh.notifyx.core.NotificationService;
+import com.navesh.notifyx.exception.NotificationServiceNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Component
 public class NotificationServiceFactory {
@@ -21,6 +23,7 @@ public class NotificationServiceFactory {
     }
 
     public NotificationService getService(NotificationChannel channel){
-        return services.get(channel);
+        return Optional.ofNullable(services.get(channel))
+                .orElseThrow(() -> new NotificationServiceNotFoundException("No service found for channel " + channel));
     }
 }
