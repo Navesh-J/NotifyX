@@ -5,16 +5,23 @@ import com.navesh.notifyx.core.NotificationChannel;
 import com.navesh.notifyx.dto.NotificationRequest;
 import com.navesh.notifyx.dto.NotificationResponse;
 import com.navesh.notifyx.core.NotificationService;
+import com.navesh.notifyx.model.EmailPayload;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 @Service
 //@Profile("email")
 public class EmailNotificationService implements NotificationService {
 
-    private ProviderProperties providerProperties;
+    private final ProviderProperties providerProperties;
+    private final JavaMailSender mailSender;
 
-    public EmailNotificationService(ProviderProperties providerProperties) {
+    public EmailNotificationService(
+            ProviderProperties providerProperties,
+            JavaMailSender mailSender) {
         this.providerProperties = providerProperties;
+        this.mailSender = mailSender;
     }
 
     @Override
@@ -27,15 +34,33 @@ public class EmailNotificationService implements NotificationService {
         return providerProperties.getName();
     }
 
+    private EmailPayload buildPayload(NotificationRequest request) {
+        return new EmailPayload(
+                "noreply@notifyx.dev",
+                request.recipient(),
+                "Notifyx Test mail",
+                request.message()
+        );
+    }
+
     @Override
     public NotificationResponse sendNotification(NotificationRequest request) {
-        System.out.println(providerProperties.getName());
-        System.out.println("Sending Email to: " + request.recipient());
+
+        EmailPayload payload = buildPayload(request);
+
+        SimpleMailMessage mail = new SimpleMailMessage();
+
+        mail.setFrom(payload.from());
+        mail.setTo(payload.to());
+        mail.setSubject(payload.subject());
+        mail.setText(payload.body());
+
+        mailSender.send(mail);
 
         return new NotificationResponse(
                 true,
                 "Email sent successfully",
-                providerProperties.getName()
+                getProviderName()
         );
     }
 }

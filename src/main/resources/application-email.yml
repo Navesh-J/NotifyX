@@ -1,5 +1,13 @@
+spring:
+  mail:
+    host: localhost
+    port: 1025
+    username:
+    password:
+
 notification:
-  channel: email
+  email:
+    from: noreply@notifyx.dev
 
 provider:
   name: Email Notification Service
