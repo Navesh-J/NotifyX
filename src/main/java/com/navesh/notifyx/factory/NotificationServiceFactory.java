@@ -13,21 +13,19 @@ import java.util.Optional;
 @Component
 public class NotificationServiceFactory {
 
-    private final Map<NotificationChannel, NotificationService> services = new EnumMap<>(NotificationChannel.class);
+    private final List<NotificationService> services;
 
-    public NotificationServiceFactory(List<NotificationService> notificationServices) {
-
-        for(NotificationService notificationService : notificationServices){
-            services.put(notificationService.getChannel(), notificationService);
-        }
+    public NotificationServiceFactory(List<NotificationService> services) {
+        this.services = services;
     }
 
     public NotificationService getService(NotificationChannel channel){
-        return Optional.ofNullable(services.get(channel))
+        return services.stream()
+                .filter(service -> service.supports(channel))
+                .findFirst()
                 .orElseThrow(() ->
-                        new NotificationServiceNotFoundException(
-                                "Unsupported notification channel " + channel
-                        )
-                );
+                    new NotificationServiceNotFoundException(
+                            "Unsupported notification channel: "+ channel
+                ));
     }
 }

@@ -18,8 +18,13 @@ public class EmailNotificationService implements NotificationService {
     }
 
     @Override
-    public NotificationChannel getChannel() {
-        return NotificationChannel.EMAIL;
+    public boolean supports(NotificationChannel channel) {
+        return channel == NotificationChannel.EMAIL;
+    }
+
+    @Override
+    public String getProviderName() {
+        return providerProperties.getName();
     }
 
     @Override

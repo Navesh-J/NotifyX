@@ -25,7 +25,12 @@ public class SmsNotificationService implements NotificationService {
     }
 
     @Override
-    public NotificationChannel getChannel(){
-        return NotificationChannel.SMS;
+    public boolean supports(NotificationChannel channel) {
+        return channel == NotificationChannel.SMS;
+    }
+
+    @Override
+    public String getProviderName() {
+        return "SMS Notification Service";
     }
 }

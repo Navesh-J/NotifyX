@@ -5,5 +5,6 @@ import com.navesh.notifyx.dto.NotificationResponse;
 
 public interface NotificationService {
     NotificationResponse sendNotification(NotificationRequest request);
-    NotificationChannel getChannel();
+    boolean supports(NotificationChannel channel);
+    String getProviderName();
 }
