@@ -19,7 +19,7 @@ public class NotificationController {
         this.notificationApplicationService = notificationApplicationService;
     }
 
-    @PostMapping("/sendNotification")
+    @PostMapping("/send")
     public NotificationResponse sendNotification(
             @Valid @RequestBody NotificationRequest request) {
         return notificationApplicationService.send(request);
