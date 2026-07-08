@@ -2,6 +2,7 @@ package com.navesh.notifyx.impl;
 
 import com.navesh.notifyx.core.NotificationChannel;
 import com.navesh.notifyx.core.NotificationService;
+import com.navesh.notifyx.dto.BroadcastNotificationRequest;
 import com.navesh.notifyx.dto.NotificationRequest;
 import com.navesh.notifyx.dto.NotificationResponse;
 import com.navesh.notifyx.gateway.PushGateway;
@@ -26,6 +27,23 @@ public class PushNotificationService implements NotificationService {
         return new NotificationResponse(
                 true,
                 "Push Notification sent successfully",
+                getProviderName()
+        );
+    }
+
+    @Override
+    public NotificationResponse sendNotification(BroadcastNotificationRequest request) {
+        PushPayload payload = new PushPayload(
+                request.recipient(),
+                "Broadcast Notification",
+                request.message()
+        );
+
+        pushGateway.send(payload);
+
+        return new NotificationResponse(
+                true,
+                "Broadcast Push sent successfully",
                 getProviderName()
         );
     }

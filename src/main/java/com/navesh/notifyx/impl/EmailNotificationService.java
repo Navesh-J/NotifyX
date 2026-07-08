@@ -2,6 +2,7 @@ package com.navesh.notifyx.impl;
 
 import com.navesh.notifyx.config.ProviderProperties;
 import com.navesh.notifyx.core.NotificationChannel;
+import com.navesh.notifyx.dto.BroadcastNotificationRequest;
 import com.navesh.notifyx.dto.NotificationRequest;
 import com.navesh.notifyx.dto.NotificationResponse;
 import com.navesh.notifyx.core.NotificationService;
@@ -60,6 +61,31 @@ public class EmailNotificationService implements NotificationService {
         return new NotificationResponse(
                 true,
                 "Email sent successfully",
+                getProviderName()
+        );
+    }
+
+    @Override
+    public NotificationResponse sendNotification(BroadcastNotificationRequest request){
+        EmailPayload payload = new EmailPayload(
+                "noreply@notifyx.dev",
+                request.recipient(),
+                "Broadcast Notification",
+                request.message()
+        );
+
+        SimpleMailMessage mail = new SimpleMailMessage();
+
+        mail.setFrom(payload.from());
+        mail.setTo(payload.to());
+        mail.setSubject(payload.subject());
+        mail.setText(payload.body());
+
+        mailSender.send(mail);
+
+        return new NotificationResponse(
+                true,
+                "Broadcast sent successfully",
                 getProviderName()
         );
     }

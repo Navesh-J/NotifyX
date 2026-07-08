@@ -2,6 +2,7 @@ package com.navesh.notifyx.impl;
 
 import com.navesh.notifyx.core.NotificationChannel;
 import com.navesh.notifyx.core.NotificationService;
+import com.navesh.notifyx.dto.BroadcastNotificationRequest;
 import com.navesh.notifyx.gateway.SmsGateway;
 import com.navesh.notifyx.model.SmsPayload;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,22 @@ public class SmsNotificationService implements NotificationService {
             getProviderName()
         );
         
+    }
+
+    @Override
+    public NotificationResponse sendNotification(BroadcastNotificationRequest request) {
+        SmsPayload payload = new SmsPayload(
+                request.recipient(),
+                request.message()
+        );
+
+        smsGateway.send(payload);
+
+        return new NotificationResponse(
+                true,
+                "Broadcast SMS Sent Successfully",
+                getProviderName()
+        );
     }
 
     @Override
