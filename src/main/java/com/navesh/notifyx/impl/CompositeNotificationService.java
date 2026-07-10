@@ -3,6 +3,8 @@ package com.navesh.notifyx.impl;
 import com.navesh.notifyx.core.NotificationService;
 import com.navesh.notifyx.dto.BroadcastNotificationRequest;
 import com.navesh.notifyx.dto.BroadcastNotificationResponse;
+import com.navesh.notifyx.dto.ChannelResult;
+import com.navesh.notifyx.dto.NotificationResponse;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -18,25 +20,38 @@ public class CompositeNotificationService {
         this.notificationServices = notificationServices;
     }
 
-    public BroadcastNotificationResponse sendToAll(BroadcastNotificationRequest request){
-        List<String> successful = new ArrayList<>();
-        List<String> failed = new ArrayList<>();
+    public BroadcastNotificationResponse sendToAll(BroadcastNotificationRequest request) {
+        List<ChannelResult> results = new ArrayList<>();
+        int successful = 0;
+        int failed = 0;
 
-        for(NotificationService service : notificationServices){
-            try{
-                service.sendNotification(request);
-                successful.add(service.getProviderName());
-            }catch (Exception e){
-                failed.add(service.getProviderName());
+        for (NotificationService service : notificationServices) {
+            try {
+                NotificationResponse response = service.sendNotification(request);
+                results.add(
+                        new ChannelResult(
+                                service.getProviderName(),
+                                true,
+                                response.message()
+                        )
+                );
+                successful++;
+            } catch (Exception e) {
+                results.add(new ChannelResult(
+                                service.getProviderName(),
+                                false,
+                                e.getMessage()
+                        )
+                );
+                failed++;
             }
         }
 
         return new BroadcastNotificationResponse(
-                notificationServices.size(),
-                successful.size(),
-                failed.size(),
+                results.size(),
                 successful,
                 failed,
+                results,
                 LocalDateTime.now()
         );
     }

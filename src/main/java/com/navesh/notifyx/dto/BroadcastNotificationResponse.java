@@ -8,8 +8,7 @@ public record BroadcastNotificationResponse(
         int successfulChannels,
         int failedChannels,
 
-        List<String> successfulProviders,
-        List<String> failedProviders,
+        List<ChannelResult> results,
 
         LocalDateTime timestamp
 ) {
