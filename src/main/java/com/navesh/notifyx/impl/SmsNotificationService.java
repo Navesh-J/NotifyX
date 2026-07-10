@@ -64,6 +64,11 @@ public class SmsNotificationService implements NotificationService {
     }
 
     @Override
+    public NotificationChannel getSupportedChannel() {
+        return  NotificationChannel.SMS;
+    }
+
+    @Override
     public String getProviderName() {
         return "Mock SMS gateway";
     }

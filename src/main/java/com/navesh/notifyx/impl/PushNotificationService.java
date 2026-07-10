@@ -54,6 +54,11 @@ public class PushNotificationService implements NotificationService {
     }
 
     @Override
+    public NotificationChannel getSupportedChannel() {
+        return  NotificationChannel.PUSH;
+    }
+
+    @Override
     public String getProviderName() {
         return "Mock Push Gateway";
     }

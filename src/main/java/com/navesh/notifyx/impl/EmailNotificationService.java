@@ -31,6 +31,11 @@ public class EmailNotificationService implements NotificationService {
     }
 
     @Override
+    public NotificationChannel getSupportedChannel() {
+        return NotificationChannel.EMAIL;
+    }
+
+    @Override
     public String getProviderName() {
         return providerProperties.getName();
     }
