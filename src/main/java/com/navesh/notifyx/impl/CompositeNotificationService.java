@@ -30,6 +30,7 @@ public class CompositeNotificationService {
                 NotificationResponse response = service.sendNotification(request);
                 results.add(
                         new ChannelResult(
+                                service.getSupportedChannel(),
                                 service.getProviderName(),
                                 true,
                                 response.message()
@@ -38,6 +39,7 @@ public class CompositeNotificationService {
                 successful++;
             } catch (Exception e) {
                 results.add(new ChannelResult(
+                                service.getSupportedChannel(),
                                 service.getProviderName(),
                                 false,
                                 e.getMessage()

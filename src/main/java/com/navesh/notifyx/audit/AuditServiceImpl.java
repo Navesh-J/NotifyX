@@ -1,5 +1,6 @@
 package com.navesh.notifyx.audit;
 
+import com.navesh.notifyx.core.NotificationChannel;
 import com.navesh.notifyx.core.NotificationStatus;
 import com.navesh.notifyx.dto.BroadcastNotificationRequest;
 import com.navesh.notifyx.dto.ChannelResult;
@@ -24,15 +25,14 @@ public class AuditServiceImpl implements AuditService {
             NotificationStatus status,
             String errorMessage
     ) {
-        NotificationAuditLog auditLog = new NotificationAuditLog();
-
-        auditLog.setChannel(request.channel());
-        auditLog.setProvider(provider);
-        auditLog.setRecipient(request.recipient());
-        auditLog.setMessage(request.message());
-        auditLog.setStatus(status);
-        auditLog.setErrorMessage(errorMessage);
-        auditLog.setSentAt(LocalDateTime.now());
+        NotificationAuditLog auditLog = buildAuditLog(
+                request.channel(),
+                provider,
+                request.recipient(),
+                request.message(),
+                status,
+                errorMessage
+        );
 
         auditRepository.save(auditLog);
     }
@@ -42,23 +42,34 @@ public class AuditServiceImpl implements AuditService {
             BroadcastNotificationRequest request,
             ChannelResult result
     ) {
-        NotificationAuditLog auditLog = new NotificationAuditLog();
-        auditLog.setProvider(result.provider());
-        auditLog.setRecipient(request.recipient());
-        auditLog.setMessage(request.message());
-
-
-        auditLog.setStatus(
-                result.success() ? NotificationStatus.SUCCESS : NotificationStatus.FAILED
-        );
-
-
-        auditLog.setErrorMessage(
+        NotificationAuditLog auditLog = buildAuditLog(
+                result.notificationChannel(),
+                result.provider(),
+                request.recipient(),
+                request.message(),
+                result.success() ? NotificationStatus.SUCCESS : NotificationStatus.FAILED,
                 result.success() ? null : result.message()
         );
 
-        auditLog.setSentAt(LocalDateTime.now());
-
         auditRepository.save(auditLog);
+    }
+
+    private NotificationAuditLog buildAuditLog(
+            NotificationChannel channel,
+            String provider,
+            String recipient,
+            String message,
+            NotificationStatus status,
+            String errorMessage) {
+
+        return NotificationAuditLog.builder()
+                .channel(channel)
+                .provider(provider)
+                .recipient(recipient)
+                .message(message)
+                .status(status)
+                .errorMessage(errorMessage)
+                .sentAt(LocalDateTime.now())
+                .build();
     }
 }

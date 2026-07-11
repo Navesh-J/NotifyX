@@ -3,15 +3,15 @@ package com.navesh.notifyx.audit;
 import com.navesh.notifyx.core.NotificationChannel;
 import com.navesh.notifyx.core.NotificationStatus;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "notification_audit")
 public class NotificationAuditLog {
