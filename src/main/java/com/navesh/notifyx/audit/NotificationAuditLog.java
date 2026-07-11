@@ -35,6 +35,8 @@ public class NotificationAuditLog {
     @Enumerated(EnumType.STRING)
     private NotificationStatus status;
 
+    @Lob
+    @Column(name = "error_message")
     private String errorMessage;
 
     private LocalDateTime sentAt;

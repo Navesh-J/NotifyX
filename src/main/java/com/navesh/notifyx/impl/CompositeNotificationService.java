@@ -32,11 +32,16 @@ public class CompositeNotificationService {
                         new ChannelResult(
                                 service.getSupportedChannel(),
                                 service.getProviderName(),
-                                true,
+                                response.success(),
                                 response.message()
                         )
                 );
-                successful++;
+
+                if (response.success()) {
+                    successful++;
+                } else {
+                    failed++;
+                }
             } catch (Exception e) {
                 results.add(new ChannelResult(
                                 service.getSupportedChannel(),
