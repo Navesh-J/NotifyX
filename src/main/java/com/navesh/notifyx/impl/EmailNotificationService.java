@@ -6,6 +6,7 @@ import com.navesh.notifyx.dto.BroadcastNotificationRequest;
 import com.navesh.notifyx.dto.NotificationRequest;
 import com.navesh.notifyx.dto.NotificationResponse;
 import com.navesh.notifyx.core.NotificationService;
+import com.navesh.notifyx.exception.NotificationDeliveryException;
 import com.navesh.notifyx.model.EmailPayload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,7 +70,7 @@ public class EmailNotificationService implements NotificationService {
 
             sendMail(payload);
 
-            log.info("Email successfully sent to {}",request.recipient());
+            log.info("Email successfully sent to {}", request.recipient());
 
             return new NotificationResponse(
                     true,
@@ -77,23 +78,23 @@ public class EmailNotificationService implements NotificationService {
                     getProviderName()
             );
         } catch (Exception ex) {
-            log.error("Failed to send email to {}",request.recipient(),ex);
-            return new NotificationResponse(
-                    false,
-                    "Failed to send email to " + ex.getMessage(),
-                    getProviderName()
+            log.error("Failed to send email to {}", request.recipient(), ex);
+
+            throw new NotificationDeliveryException(
+                    "Unable to send email.",
+                    ex
             );
         }
     }
 
     @Override
-    public NotificationResponse sendNotification(BroadcastNotificationRequest request){
-        try{
+    public NotificationResponse sendNotification(BroadcastNotificationRequest request) {
+        try {
             EmailPayload payload = buildPayload(request);
 
             sendMail(payload);
 
-            log.info("Broadcast successfully sent to {}",request.recipient());
+            log.info("Broadcast successfully sent to {}", request.recipient());
 
             return new NotificationResponse(
                     true,
@@ -102,10 +103,10 @@ public class EmailNotificationService implements NotificationService {
             );
         } catch (Exception ex) {
             log.error("Failed to send broadcast email to {}", request.recipient(), ex);
-            return new NotificationResponse(
-                    false,
-                    "Failed to send broadcast: " + ex.getMessage(),
-                    getProviderName()
+
+            throw new NotificationDeliveryException(
+                    "Unable to send broadcast email.",
+                    ex
             );
         }
     }
