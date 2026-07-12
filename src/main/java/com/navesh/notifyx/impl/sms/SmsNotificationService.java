@@ -1,4 +1,4 @@
-package com.navesh.notifyx.impl;
+package com.navesh.notifyx.impl.sms;
 
 import com.navesh.notifyx.core.NotificationChannel;
 import com.navesh.notifyx.core.NotificationService;

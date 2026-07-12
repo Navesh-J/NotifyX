@@ -1,4 +1,4 @@
-package com.navesh.notifyx.impl;
+package com.navesh.notifyx.impl.email;
 
 import com.navesh.notifyx.config.ProviderProperties;
 import com.navesh.notifyx.core.NotificationChannel;
