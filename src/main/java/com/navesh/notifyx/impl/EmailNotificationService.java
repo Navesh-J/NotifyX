@@ -8,6 +8,7 @@ import com.navesh.notifyx.dto.NotificationResponse;
 import com.navesh.notifyx.core.NotificationService;
 import com.navesh.notifyx.exception.NotificationDeliveryException;
 import com.navesh.notifyx.model.EmailPayload;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mail.SimpleMailMessage;
@@ -15,19 +16,13 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class EmailNotificationService implements NotificationService {
 
     private final ProviderProperties providerProperties;
     private final JavaMailSender mailSender;
     private static final Logger log =
             LoggerFactory.getLogger(EmailNotificationService.class);
-
-    public EmailNotificationService(
-            ProviderProperties providerProperties,
-            JavaMailSender mailSender) {
-        this.providerProperties = providerProperties;
-        this.mailSender = mailSender;
-    }
 
     @Override
     public boolean supports(NotificationChannel channel) {
@@ -98,7 +93,7 @@ public class EmailNotificationService implements NotificationService {
 
             return new NotificationResponse(
                     true,
-                    "Broadcast sent successfully",
+                    "Broadcast EMAIL sent successfully",
                     getProviderName()
             );
         } catch (Exception ex) {
