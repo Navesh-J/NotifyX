@@ -5,22 +5,16 @@ import com.navesh.notifyx.core.NotificationStatus;
 import com.navesh.notifyx.dto.BroadcastNotificationRequest;
 import com.navesh.notifyx.dto.ChannelResult;
 import com.navesh.notifyx.dto.NotificationRequest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+@RequiredArgsConstructor
 @Service
 public class AuditServiceImpl implements AuditService {
 
     private final AuditRepository auditRepository;
-    private static final Logger log =
-            LoggerFactory.getLogger(AuditServiceImpl.class);
-
-    public AuditServiceImpl(AuditRepository auditRepository) {
-        this.auditRepository = auditRepository;
-    }
 
     @Override
     public void audit(
@@ -38,16 +32,8 @@ public class AuditServiceImpl implements AuditService {
                 errorMessage
         );
 
-        log.debug(
-                "Persisting audit log for provider {}",
-                provider
-        );
-
         auditRepository.save(auditLog);
 
-        log.debug(
-                "Audit record saved successfully."
-        );
     }
 
     @Override
@@ -64,16 +50,8 @@ public class AuditServiceImpl implements AuditService {
                 result.success() ? null : result.message()
         );
 
-        log.debug(
-                "Persisting audit log for broadcast provider {}",
-                result.provider()
-        );
-
         auditRepository.save(auditLog);
 
-        log.debug(
-                "Broadcast Audit record saved successfully."
-        );
     }
 
     private NotificationAuditLog buildAuditLog(

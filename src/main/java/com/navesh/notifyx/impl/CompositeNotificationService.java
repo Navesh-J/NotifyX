@@ -6,6 +6,7 @@ import com.navesh.notifyx.dto.BroadcastNotificationResponse;
 import com.navesh.notifyx.dto.ChannelResult;
 import com.navesh.notifyx.dto.NotificationResponse;
 import com.navesh.notifyx.exception.NotificationDeliveryException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -13,13 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CompositeNotificationService {
 
     private final List<NotificationService> notificationServices;
-
-    public CompositeNotificationService(List<NotificationService> notificationServices) {
-        this.notificationServices = notificationServices;
-    }
 
     public BroadcastNotificationResponse sendToAll(BroadcastNotificationRequest request) {
         List<ChannelResult> results = new ArrayList<>();

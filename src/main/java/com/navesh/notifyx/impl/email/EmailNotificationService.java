@@ -9,8 +9,6 @@ import com.navesh.notifyx.core.NotificationService;
 import com.navesh.notifyx.exception.NotificationDeliveryException;
 import com.navesh.notifyx.model.EmailPayload;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -21,8 +19,6 @@ public class EmailNotificationService implements NotificationService {
 
     private final ProviderProperties providerProperties;
     private final JavaMailSender mailSender;
-    private static final Logger log =
-            LoggerFactory.getLogger(EmailNotificationService.class);
 
     @Override
     public boolean supports(NotificationChannel channel) {
@@ -65,16 +61,12 @@ public class EmailNotificationService implements NotificationService {
 
             sendMail(payload);
 
-            log.info("Email successfully sent to {}", request.recipient());
-
             return new NotificationResponse(
                     true,
                     "Email sent successfully",
                     getProviderName()
             );
         } catch (Exception ex) {
-            log.error("Failed to send email to {}", request.recipient(), ex);
-
             throw new NotificationDeliveryException(
                     "Unable to send email.",
                     ex
@@ -89,16 +81,12 @@ public class EmailNotificationService implements NotificationService {
 
             sendMail(payload);
 
-            log.info("Broadcast successfully sent to {}", request.recipient());
-
             return new NotificationResponse(
                     true,
                     "Broadcast EMAIL sent successfully",
                     getProviderName()
             );
         } catch (Exception ex) {
-            log.error("Failed to send broadcast email to {}", request.recipient(), ex);
-
             throw new NotificationDeliveryException(
                     "Unable to send broadcast email.",
                     ex
@@ -113,8 +101,6 @@ public class EmailNotificationService implements NotificationService {
         mail.setTo(payload.to());
         mail.setSubject(payload.subject());
         mail.setText(payload.body());
-
-        log.info("Sending email to {}", payload.to());
 
         mailSender.send(mail);
     }

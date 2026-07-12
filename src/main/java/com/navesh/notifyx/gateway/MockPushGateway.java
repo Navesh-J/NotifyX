@@ -1,15 +1,12 @@
 package com.navesh.notifyx.gateway;
 
 import com.navesh.notifyx.model.PushPayload;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class MockPushGateway implements PushGateway {
-
-    private static final Logger log =
-            LoggerFactory.getLogger(MockPushGateway.class);
 
     @Override
     public void send(PushPayload payload) {
