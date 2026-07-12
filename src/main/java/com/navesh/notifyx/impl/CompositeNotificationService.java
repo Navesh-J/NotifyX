@@ -5,6 +5,7 @@ import com.navesh.notifyx.dto.BroadcastNotificationRequest;
 import com.navesh.notifyx.dto.BroadcastNotificationResponse;
 import com.navesh.notifyx.dto.ChannelResult;
 import com.navesh.notifyx.dto.NotificationResponse;
+import com.navesh.notifyx.exception.NotificationDeliveryException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -32,22 +33,18 @@ public class CompositeNotificationService {
                         new ChannelResult(
                                 service.getSupportedChannel(),
                                 service.getProviderName(),
-                                response.success(),
+                                true,
                                 response.message()
                         )
                 );
+                successful++;
 
-                if (response.success()) {
-                    successful++;
-                } else {
-                    failed++;
-                }
-            } catch (Exception e) {
+            } catch (NotificationDeliveryException ex) {
                 results.add(new ChannelResult(
                                 service.getSupportedChannel(),
                                 service.getProviderName(),
                                 false,
-                                e.getMessage()
+                                ex.getMessage()
                         )
                 );
                 failed++;
