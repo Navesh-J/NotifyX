@@ -2,13 +2,10 @@ package com.navesh.notifyx.factory;
 
 import com.navesh.notifyx.core.NotificationChannel;
 import com.navesh.notifyx.core.NotificationService;
-import com.navesh.notifyx.exception.NotificationServiceNotFoundException;
+import com.navesh.notifyx.exception.ChannelUnavailableException;
 import org.springframework.stereotype.Component;
 
-import java.util.EnumMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @Component
 public class NotificationServiceFactory {
@@ -24,7 +21,7 @@ public class NotificationServiceFactory {
                 .filter(service -> service.supports(channel))
                 .findFirst()
                 .orElseThrow(() ->
-                    new NotificationServiceNotFoundException(
+                    new ChannelUnavailableException(
                             "Unsupported notification channel: "+ channel
                 ));
     }

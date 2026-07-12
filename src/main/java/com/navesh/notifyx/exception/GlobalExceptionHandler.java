@@ -14,23 +14,6 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(NotificationServiceNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleNotificationServiceNotFoundException(
-            NotificationServiceNotFoundException ex,
-            HttpServletRequest request
-    ) {
-        ErrorResponse errorResponse = new ErrorResponse(
-                LocalDateTime.now(),
-                HttpStatus.NOT_FOUND.value(),
-                HttpStatus.NOT_FOUND.getReasonPhrase(),
-                ex.getMessage(),
-                request.getRequestURI()
-        );
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body(errorResponse);
-    }
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String,String>> handleValidationException(
             MethodArgumentNotValidException ex) {
