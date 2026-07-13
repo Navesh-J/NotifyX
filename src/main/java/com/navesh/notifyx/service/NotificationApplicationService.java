@@ -11,8 +11,10 @@ import com.navesh.notifyx.factory.NotificationServiceFactory;
 import com.navesh.notifyx.impl.CompositeNotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class NotificationApplicationService {
 
