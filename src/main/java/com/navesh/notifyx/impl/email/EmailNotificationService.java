@@ -9,11 +9,16 @@ import com.navesh.notifyx.core.NotificationService;
 import com.navesh.notifyx.exception.NotificationDeliveryException;
 import com.navesh.notifyx.model.EmailPayload;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Recover;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class EmailNotificationService implements NotificationService {
 
@@ -53,6 +58,14 @@ public class EmailNotificationService implements NotificationService {
         );
     }
 
+    @Retryable(
+            retryFor = NotificationDeliveryException.class,
+            maxAttempts = 3,
+            backoff = @Backoff(
+                    delay = 1000,
+                    multiplier = 2
+            )
+    )
     @Override
     public NotificationResponse sendNotification(NotificationRequest request) {
 
@@ -74,6 +87,14 @@ public class EmailNotificationService implements NotificationService {
         }
     }
 
+    @Retryable(
+            retryFor = NotificationDeliveryException.class,
+            maxAttempts = 3,
+            backoff = @Backoff(
+                    delay = 1000,
+                    multiplier = 2
+            )
+    )
     @Override
     public NotificationResponse sendNotification(BroadcastNotificationRequest request) {
         try {
@@ -103,5 +124,33 @@ public class EmailNotificationService implements NotificationService {
         mail.setText(payload.body());
 
         mailSender.send(mail);
+    }
+
+    @Recover
+    public NotificationResponse recover(
+            NotificationDeliveryException ex,
+            NotificationRequest request) {
+
+        log.error(
+                "Email delivery permanently failed for {}",
+                request.recipient(),
+                ex
+        );
+
+        throw ex;
+    }
+
+    @Recover
+    public NotificationResponse recover(
+            NotificationDeliveryException ex,
+            BroadcastNotificationRequest request) {
+
+        log.error(
+                "Broadcast email permanently failed for {}",
+                request.recipient(),
+                ex
+        );
+
+        throw ex;
     }
 }
