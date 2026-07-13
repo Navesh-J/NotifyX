@@ -1,5 +1,6 @@
 package com.navesh.notifyx.audit;
 
+import com.navesh.notifyx.core.AuditStatus;
 import com.navesh.notifyx.core.NotificationChannel;
 import com.navesh.notifyx.core.NotificationStatus;
 import com.navesh.notifyx.dto.BroadcastNotificationRequest;
@@ -20,7 +21,7 @@ public class AuditServiceImpl implements AuditService {
     public void audit(
             NotificationRequest request,
             String provider,
-            NotificationStatus status,
+            AuditStatus status,
             String errorMessage
     ) {
         NotificationAuditLog auditLog = buildAuditLog(
@@ -46,7 +47,7 @@ public class AuditServiceImpl implements AuditService {
                 result.provider(),
                 request.recipient(),
                 request.message(),
-                result.success() ? NotificationStatus.SUCCESS : NotificationStatus.FAILED,
+                result.success() ? AuditStatus.SUCCESS : AuditStatus.RETRY_PENDING,
                 result.success() ? null : result.message()
         );
 
@@ -59,7 +60,7 @@ public class AuditServiceImpl implements AuditService {
             String provider,
             String recipient,
             String message,
-            NotificationStatus status,
+            AuditStatus status,
             String errorMessage) {
 
         return NotificationAuditLog.builder()
@@ -67,7 +68,9 @@ public class AuditServiceImpl implements AuditService {
                 .provider(provider)
                 .recipient(recipient)
                 .message(message)
-                .status(status)
+                .auditStatus(status)
+                .retryCount(0)
+                .nextRetryAt(null)
                 .errorMessage(errorMessage)
                 .sentAt(LocalDateTime.now())
                 .build();

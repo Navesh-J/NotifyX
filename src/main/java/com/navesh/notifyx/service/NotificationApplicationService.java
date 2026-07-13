@@ -1,8 +1,8 @@
 package com.navesh.notifyx.service;
 
 import com.navesh.notifyx.audit.AuditService;
+import com.navesh.notifyx.core.AuditStatus;
 import com.navesh.notifyx.core.NotificationService;
-import com.navesh.notifyx.core.NotificationStatus;
 import com.navesh.notifyx.dto.BroadcastNotificationRequest;
 import com.navesh.notifyx.dto.BroadcastNotificationResponse;
 import com.navesh.notifyx.dto.NotificationRequest;
@@ -32,7 +32,7 @@ public class NotificationApplicationService {
             auditService.audit(
                     request,
                     service.getProviderName(),
-                    NotificationStatus.SUCCESS,
+                    AuditStatus.SUCCESS,
                     null
             );
 
@@ -41,7 +41,7 @@ public class NotificationApplicationService {
             auditService.audit(
                     request,
                     service.getProviderName(),
-                    NotificationStatus.FAILED,
+                    AuditStatus.RETRY_PENDING,
                     ex.getMessage()
             );
 

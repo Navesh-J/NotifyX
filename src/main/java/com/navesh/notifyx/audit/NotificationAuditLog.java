@@ -1,7 +1,7 @@
 package com.navesh.notifyx.audit;
 
+import com.navesh.notifyx.core.AuditStatus;
 import com.navesh.notifyx.core.NotificationChannel;
-import com.navesh.notifyx.core.NotificationStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -33,12 +33,16 @@ public class NotificationAuditLog {
     private String message;
 
     @Enumerated(EnumType.STRING)
-    private NotificationStatus status;
+    private AuditStatus auditStatus;
 
     @Lob
     @Column(name = "error_message")
     private String errorMessage;
 
     private LocalDateTime sentAt;
+
+    private int retryCount;
+
+    private LocalDateTime nextRetryAt;
 
 }
