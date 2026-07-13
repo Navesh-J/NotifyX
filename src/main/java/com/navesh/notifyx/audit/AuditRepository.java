@@ -8,4 +8,9 @@ import java.util.List;
 public interface AuditRepository extends JpaRepository<NotificationAuditLog, Long> {
 
     List<NotificationAuditLog> findByAuditStatus(AuditStatus auditStatus);
+
+    List<NotificationAuditLog> findByAuditStatusAndRetryCountLessThan(
+            AuditStatus auditStatus,
+            int retryCount
+    );
 }

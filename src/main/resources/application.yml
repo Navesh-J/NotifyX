@@ -37,3 +37,8 @@ springdoc:
     path: /swagger-ui
     operationsSorter: method
     tagSorter: alpha
+
+notification:
+  retry:
+    max-attempts: 3
+    fixed-delay: 60000
