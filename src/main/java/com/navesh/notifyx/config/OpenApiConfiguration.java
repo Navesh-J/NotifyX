@@ -53,7 +53,7 @@ public class OpenApiConfiguration {
                                         new ApiResponse().description("Invalid Request")
                                 )
                                 .addResponses(
-                                        "Internal Error",
+                                        "InternalError",
                                         new ApiResponse().description("Internal Server Error")
                                 )
                 );
