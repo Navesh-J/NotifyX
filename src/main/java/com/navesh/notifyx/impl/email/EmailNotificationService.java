@@ -10,6 +10,7 @@ import com.navesh.notifyx.exception.NotificationDeliveryException;
 import com.navesh.notifyx.model.EmailPayload;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.retry.annotation.Backoff;
@@ -79,7 +80,7 @@ public class EmailNotificationService implements NotificationService {
                     "Email sent successfully",
                     getProviderName()
             );
-        } catch (Exception ex) {
+        } catch (MailException ex) {
             throw new NotificationDeliveryException(
                     "Unable to send email.",
                     ex
@@ -107,7 +108,7 @@ public class EmailNotificationService implements NotificationService {
                     "Broadcast EMAIL sent successfully",
                     getProviderName()
             );
-        } catch (Exception ex) {
+        } catch (MailException ex) {
             throw new NotificationDeliveryException(
                     "Unable to send broadcast email.",
                     ex
