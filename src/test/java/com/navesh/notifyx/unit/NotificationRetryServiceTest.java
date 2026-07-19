@@ -6,7 +6,6 @@ import com.navesh.notifyx.config.RetryProperties;
 import com.navesh.notifyx.core.AuditStatus;
 import com.navesh.notifyx.core.NotificationChannel;
 import com.navesh.notifyx.core.NotificationService;
-import com.navesh.notifyx.dto.BroadcastNotificationRequest;
 import com.navesh.notifyx.dto.NotificationRequest;
 import com.navesh.notifyx.dto.NotificationResponse;
 import com.navesh.notifyx.exception.NotificationDeliveryException;
@@ -64,15 +63,6 @@ class NotificationRetryServiceTest {
                         )
                 );
 
-        when(notificationService.sendNotification(any(BroadcastNotificationRequest.class)))
-                .thenReturn(
-                        new NotificationResponse(
-                                true,
-                                "Success",
-                                "Email"
-                        )
-                );
-
         retryService.retry(audit);
 
         assertEquals(
@@ -107,14 +97,6 @@ class NotificationRetryServiceTest {
                 .thenReturn(3);
 
         when(notificationService.sendNotification(any(NotificationRequest.class)))
-                .thenThrow(
-                        new NotificationDeliveryException(
-                                "SMTP Down"
-                        )
-                );
-
-        when(notificationService
-                .sendNotification(any(BroadcastNotificationRequest.class)))
                 .thenThrow(
                         new NotificationDeliveryException(
                                 "SMTP Down"
@@ -164,14 +146,6 @@ class NotificationRetryServiceTest {
                         )
                 );
 
-        when(notificationService
-                .sendNotification(any(BroadcastNotificationRequest.class)))
-                .thenThrow(
-                        new NotificationDeliveryException(
-                                "SMTP Down"
-                        )
-                );
-
         assertThrows(
                 NotificationDeliveryException.class,
                 () -> retryService.retry(audit)
@@ -207,16 +181,6 @@ class NotificationRetryServiceTest {
                         )
                 );
 
-        when(notificationService.
-                sendNotification(any(BroadcastNotificationRequest.class)))
-                .thenReturn(
-                        new NotificationResponse(
-                                true,
-                                "Success",
-                                "Email"
-                        )
-                );
-
         retryService.retry(audit);
 
         verify(notificationServiceFactory)
@@ -224,7 +188,5 @@ class NotificationRetryServiceTest {
 
         verify(notificationService)
                 .sendNotification(any(NotificationRequest.class));
-        verify(notificationService)
-                .sendNotification(any(BroadcastNotificationRequest.class));
     }
 }

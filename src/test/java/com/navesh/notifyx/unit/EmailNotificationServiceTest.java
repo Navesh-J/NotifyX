@@ -77,7 +77,6 @@ class EmailNotificationServiceTest {
 
     @Test
     void shouldThrowExceptionWhenMailSendingFails() {
-        when(providerProperties.getName()).thenReturn("Email Notification Service");
 
         doThrow(new MailSendException("SMTP Down"))
                 .when(mailSender)
@@ -98,7 +97,7 @@ class EmailNotificationServiceTest {
 
         assertNotNull(exception);
         assertEquals(
-                "Unable to send mail",
+                "Unable to send email.",
                 exception.getMessage()
         );
         verify(mailSender).send(any(SimpleMailMessage.class));

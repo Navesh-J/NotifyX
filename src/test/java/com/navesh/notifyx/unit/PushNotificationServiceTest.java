@@ -1,6 +1,5 @@
 package com.navesh.notifyx.unit;
 
-import com.navesh.notifyx.config.ProviderProperties;
 import com.navesh.notifyx.core.NotificationChannel;
 import com.navesh.notifyx.dto.NotificationRequest;
 import com.navesh.notifyx.dto.NotificationResponse;
@@ -24,17 +23,11 @@ class PushNotificationServiceTest {
     @Mock
     private PushGateway pushGateway;
 
-    @Mock
-    private ProviderProperties providerProperties;
-
     @InjectMocks
     private PushNotificationService pushNotificationService;
 
     @Test
     void shouldSendPushSuccessfully() {
-
-        when(providerProperties.getName())
-                .thenReturn("Mock Push Gateway");
 
         NotificationRequest request = new NotificationRequest(
                 NotificationChannel.PUSH,
@@ -54,7 +47,7 @@ class PushNotificationServiceTest {
         );
 
         assertEquals(
-                "Push Notification Sent Successfully",
+                "Push Notification sent successfully",
                 response.message()
         );
 
@@ -72,7 +65,7 @@ class PushNotificationServiceTest {
         );
 
         assertEquals(
-                "Broadcast Notification",
+                "NotifyX",
                 payload.title()
         );
 
@@ -86,9 +79,6 @@ class PushNotificationServiceTest {
 
     @Test
     void shouldThrowNotificationDeliveryExceptionWhenGatewayFails() {
-
-        when(providerProperties.getName())
-                .thenReturn("Mock Push Gateway");
 
         doThrow(new RuntimeException("FCM Down"))
                 .when(pushGateway)

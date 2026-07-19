@@ -1,6 +1,5 @@
 package com.navesh.notifyx.unit;
 
-import com.navesh.notifyx.config.ProviderProperties;
 import com.navesh.notifyx.core.NotificationChannel;
 import com.navesh.notifyx.dto.NotificationRequest;
 import com.navesh.notifyx.dto.NotificationResponse;
@@ -24,17 +23,11 @@ class SmsNotificationServiceTest {
     @Mock
     private SmsGateway smsGateway;
 
-    @Mock
-    private ProviderProperties providerProperties;
-
     @InjectMocks
     private SmsNotificationService smsNotificationService;
 
     @Test
     void shouldSendSmsSuccessfully() {
-
-        when(providerProperties.getName())
-                .thenReturn("Mock SMS Gateway");
 
         NotificationRequest request = new NotificationRequest(
                 NotificationChannel.SMS,
@@ -80,9 +73,6 @@ class SmsNotificationServiceTest {
 
     @Test
     void shouldThrowNotificationDeliveryExceptionWhenGatewayFails() {
-
-        when(providerProperties.getName())
-                .thenReturn("Mock SMS Gateway");
 
         doThrow(new RuntimeException("Gateway Down"))
                 .when(smsGateway)

@@ -52,6 +52,9 @@ class NotificationApplicationServiceTest {
         when(notificationServiceFactory.getService(NotificationChannel.EMAIL))
                 .thenReturn(notificationService);
 
+        when(notificationService.getProviderName())
+                .thenReturn("Email");
+
         when(notificationService.sendNotification(request))
                 .thenReturn(expected);
 
@@ -59,7 +62,6 @@ class NotificationApplicationServiceTest {
                 applicationService.sendNotification(request);
 
         assertNotNull(response);
-
         assertEquals(expected, response);
 
         verify(notificationServiceFactory)
@@ -88,6 +90,9 @@ class NotificationApplicationServiceTest {
         when(notificationServiceFactory.getService(NotificationChannel.EMAIL))
                 .thenReturn(notificationService);
 
+        when(notificationService.getProviderName())
+                .thenReturn("Email");
+
         when(notificationService.sendNotification(request))
                 .thenReturn(response);
 
@@ -112,12 +117,13 @@ class NotificationApplicationServiceTest {
         );
 
         NotificationDeliveryException exception =
-                new NotificationDeliveryException(
-                        "SMTP Down"
-                );
+                new NotificationDeliveryException("SMTP Down");
 
         when(notificationServiceFactory.getService(NotificationChannel.EMAIL))
                 .thenReturn(notificationService);
+
+        when(notificationService.getProviderName())
+                .thenReturn("Email");
 
         when(notificationService.sendNotification(request))
                 .thenThrow(exception);
@@ -130,7 +136,7 @@ class NotificationApplicationServiceTest {
         verify(auditService)
                 .audit(
                         eq(request),
-                        anyString(),
+                        eq("Email"),
                         eq(AuditStatus.RETRY_PENDING),
                         eq("SMTP Down")
                 );
@@ -148,11 +154,12 @@ class NotificationApplicationServiceTest {
         when(notificationServiceFactory.getService(NotificationChannel.EMAIL))
                 .thenReturn(notificationService);
 
+        when(notificationService.getProviderName())
+                .thenReturn("Email");
+
         when(notificationService.sendNotification(request))
                 .thenThrow(
-                        new NotificationDeliveryException(
-                                "SMTP Down"
-                        )
+                        new NotificationDeliveryException("SMTP Down")
                 );
 
         assertThrows(
@@ -173,11 +180,12 @@ class NotificationApplicationServiceTest {
         when(notificationServiceFactory.getService(NotificationChannel.EMAIL))
                 .thenReturn(notificationService);
 
+        when(notificationService.getProviderName())
+                .thenReturn("Email");
+
         when(notificationService.sendNotification(request))
                 .thenThrow(
-                        new NotificationDeliveryException(
-                                "SMTP Down"
-                        )
+                        new NotificationDeliveryException("SMTP Down")
                 );
 
         assertThrows(
