@@ -31,7 +31,7 @@ public class PushNotificationService implements NotificationService {
             );
         } catch (Exception ex) {
             throw new NotificationDeliveryException(
-                    "Unable to send push notification. ",
+                    "Unable to send push notification.",
                     ex
             );
         }
@@ -51,7 +51,7 @@ public class PushNotificationService implements NotificationService {
             );
         } catch (Exception ex) {
             throw new NotificationDeliveryException(
-                    "Unable to send push notification. ",
+                    "Unable to send push notification.",
                     ex
             );
         }

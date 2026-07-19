@@ -87,6 +87,6 @@ public class SmsNotificationService implements NotificationService {
 
     @Override
     public String getProviderName() {
-        return "Mock SMS gateway";
+        return "Mock SMS Gateway";
     }
 }
